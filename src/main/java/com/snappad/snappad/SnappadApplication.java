@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SnappadApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SnappadApplication.class, args);
 	}
 }
