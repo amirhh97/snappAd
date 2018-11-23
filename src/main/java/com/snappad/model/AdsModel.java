@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "general")
-@Table(name = "ads")
+@Table(name = "ads" )
 public class AdsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +52,7 @@ public class AdsModel {
     @OneToOne(cascade = CascadeType.ALL)
     private CityModel AdsCity;
     @OneToOne(cascade = CascadeType.ALL)
-    private snappadd.model.CategoryModel Cat;
+    private CategoryModel Cat;
     @Column
     private Integer Price;
     @Column
@@ -60,11 +60,11 @@ public class AdsModel {
     private String Date;
 
     //////////////////////
-    public snappadd.model.CategoryModel getCat() {
+    public CategoryModel getCat() {
         return Cat;
     }
 
-    public void setCat(snappadd.model.CategoryModel cat) {
+    public void setCat(CategoryModel cat) {
         Cat = cat;
     }
 

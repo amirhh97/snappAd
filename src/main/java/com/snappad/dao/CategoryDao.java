@@ -2,12 +2,12 @@ package com.snappad.dao;
 
 import java.util.List;
 
+import com.snappad.model.CategoryModel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 
-import snappadd.model.CategoryModel;
 
 public class CategoryDao {
 	Session session;

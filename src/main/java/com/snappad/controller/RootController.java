@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.snappad.dao.AdsDao;
 import com.snappad.dao.CategoryDao;
+import com.snappad.model.CategoryModel;
 import com.snappad.model.UserModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import snappadd.model.CategoryModel;
 
 @Controller
 @RequestMapping("/")

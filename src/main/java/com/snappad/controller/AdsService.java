@@ -8,19 +8,25 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.snappad.dao.AdsDao;
 import com.snappad.dao.CategoryDao;
+import com.snappad.dao.JpaRepositories.AdsRepository;
+import com.snappad.dao.JpaRepositories.UserRepository;
 import com.snappad.dao.LocationDao;
 import com.snappad.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import snappadd.model.CategoryModel;
 
 
 @Controller
 @RequestMapping("/ad")
 public class AdsService {
+
+	@Autowired
+	AdsRepository adsRepository;
+
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody()
 	public String RegAd(@RequestParam("Describe") String Describe, @RequestParam("State") String State,
@@ -88,7 +94,7 @@ public class AdsService {
 	@ResponseBody
 	public List<AdsModel> Home() {
 
-		List<AdsModel> ads = new AdsDao().getAllAds();
+		List<AdsModel> ads =adsRepository.findAll();
 		for (AdsModel x : ads)
 			x.setDate(x.computeDiff());
 		return ads;

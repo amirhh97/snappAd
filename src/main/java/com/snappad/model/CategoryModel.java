@@ -1,4 +1,4 @@
-package snappadd.model;
+package com.snappad.model;
 
 import java.util.Set;
 
