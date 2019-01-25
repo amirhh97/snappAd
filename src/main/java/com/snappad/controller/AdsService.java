@@ -1,48 +1,66 @@
 package com.snappad.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.snappad.dao.AdsDao;
-import com.snappad.dao.CategoryDao;
-import com.snappad.dao.JpaRepositories.AdsRepository;
-import com.snappad.dao.JpaRepositories.UserRepository;
-import com.snappad.dao.LocationDao;
+import com.snappad.dao.JpaRepositories.*;
 import com.snappad.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.util.Date;
+import java.util.List;
 
 
 @Controller
 @RequestMapping("/ad")
 public class AdsService {
 
+
+	private AdsRepository adsRepository;
+	private CategoryRepository categoryRepository;
+	private CityRepository cityRepository;
+	private StateRepository stateRepository;
+	private DistrictRepository districtRepository;
 	@Autowired
-	AdsRepository adsRepository;
+	public AdsService(AdsRepository adsRepository, CategoryRepository categoryRepository, CityRepository cityRepository, StateRepository stateRepository, DistrictRepository districtRepository) {
+		this.adsRepository = adsRepository;
+		this.categoryRepository = categoryRepository;
+		this.cityRepository = cityRepository;
+		this.stateRepository = stateRepository;
+		this.districtRepository = districtRepository;
+	}
 
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody()
 	public String RegAd(@RequestParam("Describe") String Describe, @RequestParam("State") String State,
-			@RequestParam("City") String City, @RequestParam("district") String District,
-			@RequestParam("price") Integer Price, @RequestParam("cat") String category,
-			@RequestParam("manufacturer") String Manufactor, @RequestParam("brand") String brand,
-			@RequestParam("poroductYear") Integer year, @RequestParam("title") String Title,
-			@RequestParam("img") String img, @RequestParam("kilometer") Integer Km, @RequestParam("color") String Color,
-			@RequestParam("Rooms") Integer rooms, @RequestParam("mortgage") Integer ejare,
-			@RequestParam("rent") Integer Rent, @RequestParam("lenght") Integer Lenght, HttpServletRequest req) {
+						@RequestParam("City") String City, @RequestParam("district") String District,
+						@RequestParam(value = "price", required = false) Integer Price, @RequestParam("cat") String category,
+						@RequestParam(value = "manufacturer", required = false) String Manufactor,
+						@RequestParam(value = "brand", required = false) String brand,
+						@RequestParam(value = "poroductYear", required = false) Integer year,
+						@RequestParam("title") String Title,
+						@RequestParam("img") String img,
+						@RequestParam(value = "kilometer", required = false) Integer Km,
+						@RequestParam(value = "color", required = false) String Color,
+						@RequestParam(value = "Rooms", required = false) Integer rooms,
+						@RequestParam(value = "mortgage", required = false) Integer ejare,
+						@RequestParam(value = "rent", required = false) Integer Rent,
+						@RequestParam(value = "lenght", required = false) Integer Lenght, HttpServletRequest req) throws Exception {
 		System.out.println(State + " " + Rent + " " + District + " " + category + " " + Title + " " + Describe);
-		LocationDao ldb = new LocationDao();
-		StateModel s = ldb.getStateById(Integer.valueOf(State));
-		CityModel c = ldb.getCityById(Integer.valueOf(City));
-		DistrictModel district = ldb.getDistrictByName(District, c);
-		CategoryModel cat = new CategoryDao().getCatById(Integer.valueOf(category));
+		StateModel s = stateRepository.getOne(Integer.valueOf(State));
+		CityModel c = cityRepository.getOne(Integer.valueOf(City));
+		//todo ino search kon bbin methode find one chejori kar mikone badesh khate paino dorost kon
+		DistrictModel district = districtRepository.findByCity(c.getCityId(), District);
+		if (district == null) {
+			district = new DistrictModel();
+			district.setName(District);
+			district.setCity(c);
+			districtRepository.save(district);/*getDistrictByName(District, c)*/
+		}
+
+		CategoryModel cat = categoryRepository.getOne(Integer.valueOf(category));
 		UserModel owner = new UserModel();
 		// owner.setUserid((int) req.getSession().getAttribute("userid"));
 		if (Integer.valueOf(category) >= 8 && Integer.valueOf(category) <= 14) {
@@ -60,7 +78,7 @@ public class AdsService {
 			ads.setProduceYear(year);
 			ads.setBrand(brand);
 			// ads.setOwner(owner);
-			new AdsDao().RegAds(ads);
+			adsRepository.save(ads);
 			return "ok";
 
 		} else if (cat.getId() >= 15 && cat.getId() <= 20) {
@@ -76,7 +94,7 @@ public class AdsService {
 			ads.setRooms(rooms);
 			ads.setMortgage(ejare);
 			ads.setRentCost(Rent);
-			new AdsDao().RegAds(ads);
+			adsRepository.save(ads);
 			return "ok";
 		}
 		AdsModel ads = new AdsModel();
@@ -87,12 +105,13 @@ public class AdsService {
 		ads.setAdsTitle(Title);
 		ads.setPrice(Price);
 		ads.setAdsDate(new Date());
+		adsRepository.save(ads);
 		return "ok";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public List<AdsModel> Home() {
+	public List<AdsModel> getAllAds() {
 
 		List<AdsModel> ads =adsRepository.findAll();
 		for (AdsModel x : ads)
@@ -100,5 +119,15 @@ public class AdsService {
 		return ads;
 
 	}
+
+	@PostMapping(value = "/img", headers = "content-type=multipart/form-data")
+	void adsImage(@RequestParam("file") MultipartFile file) throws IOException {
+		FilePermission permission=new FilePermission("C:\\Users\\Amirhosein\\Desktop\\temp","write");
+		File img=new File("C:\\Users\\Amirhosein\\Desktop\\temp");
+		FileOutputStream os=new FileOutputStream(img);
+		os.write(file.getBytes());
+		return;
+	}
+
 
 }

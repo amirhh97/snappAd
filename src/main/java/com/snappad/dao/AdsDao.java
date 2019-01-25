@@ -39,7 +39,6 @@ public class AdsDao {
 			session.save(Ad);
 			t.commit();
 		} catch (Exception e) {
-			// TODO: handle exception
 			t.rollback();
 			e.printStackTrace();
 		}

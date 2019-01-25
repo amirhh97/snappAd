@@ -22,7 +22,7 @@ private int id;
 @Column
 private String Name;
 @ManyToOne
-@JoinColumn(name="Districts")
+@JoinColumn(name="Cityid")
 CityModel City;
 public int getId() {
 	return id;

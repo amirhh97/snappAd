@@ -1,25 +1,10 @@
 package com.snappad.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.snappad.model.AdsModel;
-import org.hibernate.engine.internal.Cascade;
-import org.hibernate.engine.spi.CascadeStyle;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
+import java.util.List;
 @Entity
 @Table(name="user")
 @JsonIdentityInfo(
@@ -40,13 +25,13 @@ public class UserModel {
 	private String userpass;
 	@Column
 	private String usermobilenum;
-	@Column
 	@OneToMany(mappedBy="Owner")
 	private List<AdsModel> UserAdsId;
-	@Column
 	@OneToMany(mappedBy="Userid")
 	private List<Favorite> UserFavId;
-	
+	@Column
+	private String Token;
+
 	public void setUserid(Integer usarid) {
 		this.userid = usarid;
 	}
@@ -103,5 +88,12 @@ public class UserModel {
 		UserAdsId = userAdsId;
 	}
 
+	public String getToken() {
+		return Token;
+	}
+
+	public void setToken(String token) {
+		Token = token;
+	}
 
 }

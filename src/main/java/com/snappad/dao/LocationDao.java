@@ -25,30 +25,25 @@ public class LocationDao {
 		return c.list();
 	}
 	public List getAllState() {
-		// TODO Auto-generated method stub
 		DetachedCriteria dc=DetachedCriteria.forClass(StateModel.class);
 		Criteria c=dc.getExecutableCriteria(session);
 		return c.list();
 		}
 	public StateModel getStateById(Integer integer) {
-		// TODO Auto-generated method stub
 		StateModel s;
 		s=(StateModel) session.get(StateModel.class,integer);
 		return s;
 	}
 	public CityModel getCityById(Integer id) {
-		// TODO Auto-generated method stub
 		CityModel c = null;
 		try {
 			c=(CityModel) session.get(CityModel.class,id);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return c;
 	}
 	public DistrictModel getDistrictByName(String district, CityModel city) {
-		// TODO Auto-generated method stub
 		DistrictModel d=new DistrictModel();
 	try {
 		DetachedCriteria dc=DetachedCriteria.forClass(DistrictModel.class);
@@ -61,7 +56,6 @@ public class LocationDao {
 			session.save(d);
 			
 	} catch (Exception e) {
-		// TODO: handle exception
 		e.printStackTrace();
 	}
 		finally {

@@ -47,11 +47,11 @@ public class AdsModel {
     private UserModel Owner;
     @Column
     private Date AdsDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private StateModel AdsState;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private CityModel AdsCity;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private CategoryModel Cat;
     @Column
     private Integer Price;
