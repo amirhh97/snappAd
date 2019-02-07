@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -121,12 +123,21 @@ public class AdsService {
 	}
 
 	@PostMapping(value = "/img", headers = "content-type=multipart/form-data")
-	void adsImage(@RequestParam("file") MultipartFile file) throws IOException {
-		FilePermission permission=new FilePermission("C:\\Users\\Amirhosein\\Desktop\\temp","write");
-		File img=new File("C:\\Users\\Amirhosein\\Desktop\\temp");
-		FileOutputStream os=new FileOutputStream(img);
-		os.write(file.getBytes());
-		return;
+	String adsImage(@RequestParam("file") MultipartFile clientFile)  {
+		File dir=new File("C:\\Users\\Amirhosein\\Desktop\\temp");
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+		File file=new File(dir.getAbsolutePath()+"\\"+clientFile.getOriginalFilename());
+        FileOutputStream os= null;
+        try {
+            os = new FileOutputStream(file);
+			os.write(clientFile.getBytes());
+			os.close();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+		return "ok";
 	}
 
 

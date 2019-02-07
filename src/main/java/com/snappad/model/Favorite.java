@@ -19,7 +19,7 @@ public class Favorite {
 	@Column
 	private Integer FavId;
 	@ManyToOne
-	@JoinColumn(name = "UserFavId")
+	@JoinColumn(name = "owner")
 	private UserModel Userid;
 	@OneToOne(cascade = CascadeType.ALL)
 	private AdsModel AdsId;

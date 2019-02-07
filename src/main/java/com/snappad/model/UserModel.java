@@ -26,7 +26,7 @@ public class UserModel {
 	@Column
 	private String usermobilenum;
 	@OneToMany(mappedBy="Owner")
-	private List<AdsModel> UserAdsId;
+	private List<AdsModel> UserAds;
 	@OneToMany(mappedBy="Userid")
 	private List<Favorite> UserFavId;
 	@Column
@@ -57,10 +57,10 @@ public class UserModel {
 		this.usermobilenum = usarmobilenum;
 	}
 	public List<AdsModel> getAdsId() {
-		return UserAdsId;
+		return UserAds;
 	}
 	public void setAdsId(List<AdsModel> adsid) {
-		this.UserAdsId = adsid;
+		this.UserAds = adsid;
 	}
 	public List<Favorite> getUserFavId() {
 		return UserFavId;
@@ -82,10 +82,10 @@ public class UserModel {
 		this.userLastName = userLastName;
 	}
 	public List<AdsModel> getUserAdsId() {
-		return UserAdsId;
+		return UserAds;
 	}
 	public void setUserAdsId(List<AdsModel> userAdsId) {
-		UserAdsId = userAdsId;
+		UserAds = userAdsId;
 	}
 
 	public String getToken() {

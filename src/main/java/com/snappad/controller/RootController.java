@@ -2,6 +2,7 @@ package com.snappad.controller;
 
 import com.snappad.dao.JpaRepositories.AdsRepository;
 import com.snappad.dao.JpaRepositories.CategoryRepository;
+import com.snappad.model.AdsModel;
 import com.snappad.model.CategoryModel;
 import com.snappad.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,12 @@ public class RootController {
 	}
 
 	@RequestMapping("/")
-	public List index() {
-		return adsRepository.findAll();
+	public String index() {
+		return new String("menu");
+		//return adsRepository.findAll();
 	}
 
-	@RequestMapping("/reg")
+	/*@RequestMapping("/reg")
 
 	public ModelAndView RegisterUser(@ModelAttribute("UserModel") UserModel model)
 {	
@@ -44,7 +46,7 @@ public class RootController {
 	public ModelAndView LoginUser(@ModelAttribute("model") UserModel model)
 {
 	return new ModelAndView("Login").addObject("url","user/");
-}
+}*/
 	@RequestMapping("/cat")
 	@ResponseBody
 	List<CategoryModel> getAllCategory() {
