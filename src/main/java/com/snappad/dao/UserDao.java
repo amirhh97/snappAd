@@ -34,7 +34,6 @@ public class UserDao {
 			session.save(user);
 			transaction.commit();
 		} catch (Exception e) {
-			// TODO: handle exception
 			transaction.rollback();
 		}
 	}

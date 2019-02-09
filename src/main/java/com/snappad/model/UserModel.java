@@ -1,25 +1,10 @@
 package com.snappad.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import com.snappad.model.AdsModel;
-import org.hibernate.engine.internal.Cascade;
-import org.hibernate.engine.spi.CascadeStyle;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
+import java.util.List;
 @Entity
 @Table(name="user")
 @JsonIdentityInfo(
@@ -40,13 +25,13 @@ public class UserModel {
 	private String userpass;
 	@Column
 	private String usermobilenum;
-	@Column
 	@OneToMany(mappedBy="Owner")
-	private List<AdsModel> UserAdsId;
-	@Column
+	private List<AdsModel> UserAds;
 	@OneToMany(mappedBy="Userid")
 	private List<Favorite> UserFavId;
-	
+	@Column
+	private String Token;
+
 	public void setUserid(Integer usarid) {
 		this.userid = usarid;
 	}
@@ -72,10 +57,10 @@ public class UserModel {
 		this.usermobilenum = usarmobilenum;
 	}
 	public List<AdsModel> getAdsId() {
-		return UserAdsId;
+		return UserAds;
 	}
 	public void setAdsId(List<AdsModel> adsid) {
-		this.UserAdsId = adsid;
+		this.UserAds = adsid;
 	}
 	public List<Favorite> getUserFavId() {
 		return UserFavId;
@@ -97,11 +82,18 @@ public class UserModel {
 		this.userLastName = userLastName;
 	}
 	public List<AdsModel> getUserAdsId() {
-		return UserAdsId;
+		return UserAds;
 	}
 	public void setUserAdsId(List<AdsModel> userAdsId) {
-		UserAdsId = userAdsId;
+		UserAds = userAdsId;
 	}
 
+	public String getToken() {
+		return Token;
+	}
+
+	public void setToken(String token) {
+		Token = token;
+	}
 
 }

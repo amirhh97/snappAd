@@ -27,12 +27,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.hibernate.annotations.GeneratorType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "general")
-@Table(name = "ads")
+@Table(name = "ads" )
+@JsonPropertyOrder({"adsId","adsTitle","adsDescribe","owner","date","price","image_url","cat","adsCity"})
 public class AdsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,16 +46,16 @@ public class AdsModel {
     @Column
     private String AdsDescribe;
     @ManyToOne
-    @JoinColumn(name = "UserAdsId")
+    @JoinColumn(name = "owner")
     private UserModel Owner;
     @Column
     private Date AdsDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private StateModel AdsState;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private CityModel AdsCity;
-    @OneToOne(cascade = CascadeType.ALL)
-    private snappadd.model.CategoryModel Cat;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CategoryModel Cat;
     @Column
     private Integer Price;
     @Column
@@ -60,11 +63,11 @@ public class AdsModel {
     private String Date;
 
     //////////////////////
-    public snappadd.model.CategoryModel getCat() {
+    public CategoryModel getCat() {
         return Cat;
     }
 
-    public void setCat(snappadd.model.CategoryModel cat) {
+    public void setCat(CategoryModel cat) {
         Cat = cat;
     }
 

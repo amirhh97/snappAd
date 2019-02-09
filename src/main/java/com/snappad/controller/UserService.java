@@ -1,35 +1,34 @@
 package com.snappad.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.snappad.dao.UserDao;
+import Utility.TokenUtility;
+import com.snappad.dao.JpaRepositories.UserRepository;
 import com.snappad.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import Utility.TokenUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
 @RequestMapping(value = "/user")
 public class UserService {
+	@Autowired
+	UserRepository userRepository;
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody
-	public String Reg(@RequestParam("firstName") String name, @RequestParam("lastName") String family,
-			@RequestParam("usermail") String mail, @RequestParam("password") String pass,
-			@RequestParam("mobileNumber") String number/*
+	public String Reg(@RequestParam("firstName") String name,
+					  @RequestParam("lastName") String family,
+					  @RequestParam("usermail") String mail,
+					  @RequestParam("password") String pass,
+					  @RequestParam("mobileNumber") String number/*
 														 * , @RequestParam(
 														 * "state") String
 														 * statename
@@ -44,12 +43,11 @@ public class UserService {
 		 * StateModel s = new StateModel(); s.setStateName(statename); CityModel
 		 * c = new CityModel(); c.setCityName(cityname);
 		 */
-		UserDao db = new UserDao();
-		if (!db.UserExist(user.getUsermobilenum())) {
+		if (userRepository.exist(number)==null) {
 			/*
 			 * user.setCityid(c); user.setStateid(s);
 			 */
-			db.RegUser(user);
+			userRepository.save(user);
 			return "ok";
 		}
 		return "faild";
@@ -57,17 +55,21 @@ public class UserService {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public String Login(@RequestParam("mobileNumber") String Number, @RequestParam("userPass") String Pass,
-			HttpServletRequest req, HttpServletResponse resp) {
+	public ResponseEntity<String> Login(@RequestParam("mobileNumber") String Number,
+										@RequestParam("userPass") String Pass,
+										HttpServletRequest req,
+										HttpServletResponse resp) {
 		System.out.println("number:" + Number + " pass:" + Pass);
 		UserModel user = new UserModel();
-		user.setUsermobilenum(Number);
+		user.setUsermobilenum(Number.trim().replace("-", "").replace(" ", ""));
 		user.setUserpass(Pass);
-		UserDao db = new UserDao();
-		int userid = db.login(user.getUsermobilenum(), user.getUserpass());
-		if (userid > 0) {
-			return TokenUtility.createToken(user);
+		if (userRepository.exists(Example.of(user))) {
+			user=userRepository.findOne(Example.of(user)).get();
+			String token=TokenUtility.createToken(user);
+			user.setToken(token);
+			userRepository.save(user);
+			return new ResponseEntity<>(token, HttpStatus.OK);
 		}
-		return "user not found";
+		return new ResponseEntity<>("user Not Found ",HttpStatus.UNAUTHORIZED);
 	}
 }

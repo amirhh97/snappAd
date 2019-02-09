@@ -6,9 +6,12 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @Table(name="city")
+@JsonIgnoreProperties({"county","districts"})
+@JsonPropertyOrder({"cityId","cityName","state"})
 public class CityModel {
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO)
@@ -19,10 +22,11 @@ private String CityName;
 @OneToOne
 private StateModel State;
 @OneToOne
-@JsonIgnore
+@JsonIgnore()
 private CountyModel County;
 @OneToMany(mappedBy="City")
 @Column
+@JsonIgnore()
 private List<DistrictModel> Districts;
 public StateModel getState() {
 	return State;

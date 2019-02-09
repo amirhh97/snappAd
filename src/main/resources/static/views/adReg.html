@@ -1,0 +1,189 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>SnappAdd firstpage</title>
+		<script src="../js/angular.js"></script>
+		<script src="../js/angular-animate.min.js"></script>
+		<script src="../js/angular-aria.min.js"></script>
+		<script src="../js/angular-material.min.js"></script>
+		<script src="../js/angular-material-icons.min.js"></script>
+		<script src="../js/angular-messages.min.js"></script>
+		<script src="../js/angular-route.js"></script>
+		<script src="../js/datePicker.min.js"></script>
+		<script src="../js/moment.min.js"></script>
+		<script src="../js/moment-jalaali.js"></script>
+		<link href="../css/angular-material.min.css" rel="stylesheet" />
+		<link href="../css/angular-material-font.css" rel="stylesheet" />
+		<link href="../css/lf-ng-md-file-input.min.css" rel="stylesheet" />
+		<script src="../js/lf-ng-md-file-input.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/ad_controller.js"></script>
+		<script src="../js/ad_service.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body ng-app="myApp" ng-controller="AdController" dir="rtl" ng-clock>
+		<div layout-align="center center" layout="row" layout-xs="column">
+			<div layout-align="center center" layout="row" layout-xs="column" layout-margin style="background-color:#f7f7f7;border:1px solid #eaeaea;">
+				<form name="regAd">
+					   <div layout="column" layout-xs="column">
+							<md-input-container md-no-float >
+							  <label >عنوان آگهی</label>
+							  <input name="title" ng-model="ad.adsTitle" placeholder="" dir="ltr" type="text" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>
+						</div>
+						<div layout="column" layout-xs="column">
+							<md-input-container>
+								  <label>گروه بندی</label>
+								  <md-select ng-model="ad.cat"  style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;" >
+										<md-optgroup label="املاک">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '2' }">{{topping.name}}</md-option>
+										</md-optgroup>
+										 <md-optgroup label="وسایل نقلیه">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '3' }">{{topping.name}}</md-option>
+										 </md-optgroup>
+										 <md-optgroup label="لوازم الکترونیکی">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '4' }">{{topping.name}}</md-option>
+										 </md-optgroup>
+										 <md-optgroup label="استخدام وکاریابی">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '5' }">{{topping.name}}</md-option>
+										 </md-optgroup>
+										 <md-optgroup label="لوازم خانه">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '6' }">{{topping.name}}</md-option>
+										 </md-optgroup>
+										 <md-optgroup label="لوازم شخصی">
+											<md-option ng-value="topping.id" ng-repeat="topping in toppings | filter: {parent: '7' }">{{topping.name}}</md-option>
+										 </md-optgroup>
+									</md-select>
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==21 || ad.cat==22 ">
+									<label>برند</label>
+									<md-select ng-model="ad.brand" style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;">
+									  <md-input ng-repeat="brand in manufacturers" value="{{brand}}">{{brand}}</md-option>
+									</md-select>
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==8">
+									<label>مدل</label>
+									<md-select ng-model="ad.brand" style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;">
+									  <md-option ng-repeat="brand in brands" value="{{brand}}">{{brand}}</md-option>
+									</md-select>
+							</md-input-container>	
+							<md-input-container   ng-show="ad.cat==8|| ad.cat==9">
+									<label>سال ساخت (چهار رقمی)</label>
+									 <input name="title" ng-model="ad.produceYear" placeholder="" dir="rtl" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>
+							<md-input-container md-no-float  ng-show="ad.cat==8|| ad.cat==9" >
+								  <label >کیلومتر(به عدد)</label>
+								  <input name="title" ng-model="ad.kilometer" placeholder="" dir="rtl" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==8">
+									<label>رنگ</label>
+									<md-select ng-model="ad.veichelColor" style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;">
+									  <md-option ng-repeat="veichelColor in veichelColors" value="{{veichelColors}}">{{veichelColor}}</md-option>
+									</md-select>
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==15 || ad.cat==16|| ad.cat==17|| ad.cat==18|| ad.cat==19|| ad.cat==20">
+									<label>متراژ</label>
+									 <input name="area" ng-model="ad.lenght" placeholder="" dir="ltr" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==15 || ad.cat==16">
+									<label>تعداد اتاق</label>
+									 <input name="numberOfRooms" ng-model="ad.numberOfRooms" placeholder="" dir="ltr" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>	
+							<md-input-container   ng-show="ad.cat==16">
+									<label>مبلغ رهن</label>
+									 <input name="mortgage" ng-model="ad.rent" placeholder="" dir="ltr" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>
+							<md-input-container   ng-show="ad.cat==16">
+									<label>مبلغ اجاره</label>
+									 <input name="rent" ng-model="ad.mortgage" placeholder="" dir="ltr" type="number" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>	
+						</div>
+						<div layout="column" layout-xs="column"  >
+							 <md-input-container class="md-block">
+								  <label>توضیحات آگهی</label>
+								  <textarea ng-model="ad.adsDescribe" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+							</md-input-container>
+						</div>
+						<div layout="row" layout-align="space-around center"  layout-xs="row" >
+							<md-input-container>
+									<label>استان</label>
+									<md-select ng-model="ad.adsState" style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;">
+									  <md-option ng-repeat="state in states " value="{{state.stateid}}">{{state.stateName}}</md-option>
+									</md-select>
+							</md-input-container>	
+							<md-input-container>
+									<label>شهر</label>
+									<md-select ng-model="ad.adsCity" style="border:1px solid#e0e0e0;border-radius:5px;background-color:white;">
+									  <md-option ng-repeat="city in cities " value="{{city.cityId}}">{{city.cityName}}</md-option>
+									</md-select>
+							</md-input-container>	
+							<md-input-container>
+									<label>محله</label>
+									<input ng-model="ad.neighbourhood" dir="ltr" type="text" flex="95" style="border:1px solid#e0e0e0;border-radius:5px;background-color: white;">
+							</md-input-container>	
+						 </div>
+					</div>
+					<div layout="column" layout-align="center center">
+						  <span style=" margin:  0 auto;">عکس آگهی</span>
+						  <div ng-if="ad.cat>14&&ad.cat<21" ng-style="{'background-image':'url({{homeImg.img}})', 'background-position': 'center center', 'background-size': 'cover','opacity':'0.5'}"> 
+							<div layout-xs="column">
+								<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						  </div>
+						  <div ng-if="ad.cat>7&&ad.cat<15" ng-style="{'background-image':'url({{carImag.img}})', 'background-position': 'center center', 'background-size': 'cover','opacity':'0.5'}"> 
+							<div layout-xs="column">
+								<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						  </div>
+						  <div ng-if="ad.cat>20&&ad.cat<29" ng-style="{'background-image':'url({{laptopImg.img}})', 'background-position': 'center center', 'background-size': 'cover','opacity':'0.5'}"> 
+							<div layout-xs="column">
+								<lf-ng-md-file-input lf-drag-and-drop-label="" lf-browse-label="انتخاب عکس" name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						 </div>
+						 <div ng-if="ad.cat>28&&ad.cat<31" ng-style="{'background-image':'url({{jobImg.img}})', 'background-position': 'center center','opacity':'0.5', 'background-size': 'cover'}" > 
+							<div layout-xs="column">
+								<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						 </div>
+						 <div ng-if="ad.cat>30&&ad.cat<37" ng-style="{'background-image':'url({{homeAppliancesImg.img}})', 'background-position': 'center center','opacity':'0.5', 'background-size': 'cover'}" > 
+							<div layout-xs="column">
+								<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						 </div>
+						 <div ng-if="ad.cat>36&&ad.cat<42" ng-style="{'background-image':'url({{personalImg.img}})', 'background-position': 'center center','opacity':'0.5', 'background-size': 'cover'}" > 
+							<div layout-xs="column">
+								<lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="3" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+								<div ng-messages="regAd.files00.$error" style="color:red;">
+									<div ng-message="maxcount">شما میتوانید حداکثر چهار عکس به اشتراک بگذارید</div>
+									<div ng-message="filesize">سایز عکس انتخابی بزرگ است</div>
+								</div>
+							 </div>
+						 </div>
+						<div layout="column" style="width:100%;margin:0 auto;"><md-button ng-disabled="regAd.$invalid" class="md-raised md-primary" ng-click="sendRegisterAdData()">ثبت آگهی</md-button></div>
+					</div>
+				</form>
+			</div>
+		</body>
+</html>

@@ -2,12 +2,12 @@ package com.snappad.dao;
 
 import java.util.List;
 
+import com.snappad.model.CategoryModel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 
-import snappadd.model.CategoryModel;
 
 public class CategoryDao {
 	Session session;
@@ -26,7 +26,6 @@ public class CategoryDao {
 			t.commit();
 			list=c.list();
 			} catch (Exception e) {
-			// TODO: handle exception
 				t.rollback();
 				e.printStackTrace();
 		}finally {
@@ -35,12 +34,10 @@ public class CategoryDao {
 		return list;
 	}
 	public CategoryModel getCatById(Integer id) {
-		// TODO Auto-generated method stub
 		CategoryModel cat;
 		try {
 			cat=(CategoryModel) session.get(CategoryModel.class, id);
 		} finally {
-			// TODO: handle finally clause
 			session.close();
 		}
 		return cat;
