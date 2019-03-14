@@ -205,10 +205,10 @@
   );}
    $scope.sendLoginData=function (){
        AdService.sendLoginData($scope.user).then(function (successResponse) {
-       	$cookies.put('anus',successResponse);
+           $scope.closePopUp(null);
+           $cookies.put('anus',successResponse.token);
         },function (failResponse) {
 		console.log("token",failResponse);
-		$cookies.put('anus',failResponse);
        });
    
 	}
@@ -224,12 +224,17 @@
 	}
 
 		$scope.sendRegisterAdData=function (){
-		AdService.sendRegisterAdData($scope.ad)
+    	var token=$cookies.get("anus");
+            if (token!== undefined) {
+                AdService.sendRegisterAdData($scope.ad,token)
             .then(fetchAllAds,
             function(errResponse){
                 console.error('Error while create Ad');
             }
-        );
+            );
+            } else {
+                $scope.showPopUp();
+            }
 	}
 	  $scope.$watch('files02.length',function(newVal,oldVal){
 		console.log($scope.files02);

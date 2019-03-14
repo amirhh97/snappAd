@@ -2,6 +2,7 @@ package com.snappad.controller;
 
 import com.snappad.dao.JpaRepositories.*;
 import com.snappad.model.*;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +26,21 @@ public class AdsService {
 	private CityRepository cityRepository;
 	private StateRepository stateRepository;
 	private DistrictRepository districtRepository;
+	private UserRepository userRepository;
 	@Autowired
-	public AdsService(AdsRepository adsRepository, CategoryRepository categoryRepository, CityRepository cityRepository, StateRepository stateRepository, DistrictRepository districtRepository) {
+	public AdsService(AdsRepository adsRepository,
+                      CategoryRepository categoryRepository,
+                      CityRepository cityRepository,
+                      StateRepository stateRepository,
+                      DistrictRepository districtRepository,
+                      UserRepository userRepository) {
 		this.adsRepository = adsRepository;
 		this.categoryRepository = categoryRepository;
 		this.cityRepository = cityRepository;
 		this.stateRepository = stateRepository;
 		this.districtRepository = districtRepository;
+		this.userRepository=userRepository;
 	}
-
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody()
 	public String RegAd(@RequestParam("Describe") String Describe, @RequestParam("State") String State,
@@ -63,8 +70,10 @@ public class AdsService {
 		}
 
 		CategoryModel cat = categoryRepository.getOne(Integer.valueOf(category));
-		UserModel owner = new UserModel();
-		// owner.setUserid((int) req.getSession().getAttribute("userid"));
+		//region setUser
+        UserModel owner = userRepository.findByToken((req.getHeader("Authorization")));
+        //endregion
+
 		if (Integer.valueOf(category) >= 8 && Integer.valueOf(category) <= 14) {
 			System.out.println("car");
 			VehicleModel ads = new VehicleModel();
@@ -79,7 +88,7 @@ public class AdsService {
 			ads.setColor(Color);
 			ads.setProduceYear(year);
 			ads.setBrand(brand);
-			// ads.setOwner(owner);
+			ads.setOwner(owner);
 			adsRepository.save(ads);
 			return "ok";
 
@@ -96,6 +105,7 @@ public class AdsService {
 			ads.setRooms(rooms);
 			ads.setMortgage(ejare);
 			ads.setRentCost(Rent);
+			ads.setOwner(owner);
 			adsRepository.save(ads);
 			return "ok";
 		}
@@ -107,6 +117,7 @@ public class AdsService {
 		ads.setAdsTitle(Title);
 		ads.setPrice(Price);
 		ads.setAdsDate(new Date());
+        ads.setOwner(owner);
 		adsRepository.save(ads);
 		return "ok";
 	}

@@ -166,7 +166,7 @@
 					<div><image-picker image-selected="$ctrl.onImageSelected(imageFile)"></image-picker></div>
 				</div>
 				<div >
-					<div style="background-color: #01b901;color: white;border-radius: 7px;text-align: center;" class="md-block"><md-button class="md-block">ثبت</md-button></div>
+					<div style="background-color: #01b901;color: white;border-radius: 7px;text-align: center;" ng-click="sendRegisterAdData()" class="md-block"><md-button class="md-block">ثبت</md-button></div>
 				</div>
 			</md-card>
 			<md-card style="background-color: #f5f5f5;" ng-show="ad.cat==8 || ad.cat==9 || ad.cat==10 || ad.cat==11|| ad.cat==12|| ad.cat==13|| ad.cat==14">
@@ -421,7 +421,7 @@
 					</form>
 				</md-dialog-content>
 				<md-dialog-actions layout="row" layout-align="end end">
-					<div><md-button class="md-primary md-raised" style="background-color:#66cc68;color:white;border-radius: 3px;" ng-disabled="dialogForm.$invalid">ورود</md-button> </div>
+					<div><md-button  ng-click="sendLoginData()" class="md-primary md-raised" style="background-color:#66cc68;color:white;border-radius: 3px;" ng-disabled="dialogForm.$invalid">ورود</md-button> </div>
 					<div><md-button ng-click="closePopUp($event)" class="md-primary md-raised" style="background-color:rgb(255,87,34);color:white;border-radius: 3px;">انصراف</md-button> </div>
 				</md-dialog-actions>
 			</form>

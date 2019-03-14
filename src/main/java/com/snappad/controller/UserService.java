@@ -1,6 +1,7 @@
 package com.snappad.controller;
 
 import Utility.TokenUtility;
+import com.snappad.LoginResponseModel;
 import com.snappad.dao.JpaRepositories.UserRepository;
 import com.snappad.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,12 @@ public class UserService {
 		return "faild";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST,produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<String> Login(@RequestParam("mobileNumber") String Number,
-										@RequestParam("userPass") String Pass,
-										HttpServletRequest req,
-										HttpServletResponse resp) {
+	public LoginResponseModel Login(@RequestParam("mobileNumber") String Number,
+                                    @RequestParam("userPass") String Pass,
+                                    HttpServletRequest req,
+                                    HttpServletResponse resp) {
 		System.out.println("number:" + Number + " pass:" + Pass);
 		UserModel user = new UserModel();
 		user.setUsermobilenum(Number.trim().replace("-", "").replace(" ", ""));
@@ -68,8 +69,8 @@ public class UserService {
 			String token=TokenUtility.createToken(user);
 			user.setToken(token);
 			userRepository.save(user);
-			return new ResponseEntity<>(token, HttpStatus.OK);
+			return new LoginResponseModel(token);
 		}
-		return new ResponseEntity<>("user Not Found ",HttpStatus.UNAUTHORIZED);
+		return new LoginResponseModel(null);
 	}
 }

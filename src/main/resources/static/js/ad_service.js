@@ -128,14 +128,18 @@ angular.module('myApp').factory('AdService', ['$http', '$q', function($http, $q)
 		);
 		return deferred.promise;
 			}
-			function sendRegisterAdData(ad){
+
+    function sendRegisterAdData(ad, token) {
 		var deferred = $q.defer();
 
 		$http({
 			method: 'POST',
 			url: ADREGISTER_URI+"reg", 
 			data: $.param({ Describe:ad.adsDescribe,State:ad.adsState, City:ad.adsCity, district: 'blablabla',cat:ad.cat,manufacturer: ad.manufacturer,brand:ad.brand,poroductYear:ad.produceYear,title:ad.adsTitle,img:'ییلبلل'}),
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Authorization': token
+            }
 		}).then(
 			function(res) {
 				console.log('succes !', res.data);
@@ -150,7 +154,7 @@ angular.module('myApp').factory('AdService', ['$http', '$q', function($http, $q)
 			}
 			 function fetchAllcities() {
         var deferred = $q.defer();
-        $http.get(REST_SERVICE_URI+"location/city")
+                 $http.get(REST_SERVICE_URI+"location/city")
             .then(
             function (response) {
                 deferred.resolve(response.data);

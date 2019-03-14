@@ -22,15 +22,28 @@ public class TokenUtility {
 	public static String createToken(UserModel user){
 		JwtBuilder builder= Jwts.builder().setId(user.getUsermobilenum()).setIssuedAt(new Date()).setIssuer(user.getUsername())
 				.signWith(key, SignatureAlgorithm.HS256);
-		builder.setExpiration(new Date(new Date().getTime()+expireDate));
+		//builder.setExpiration(new Date(new Date().getTime()+expireDate));
 		return builder.compact();
 	}
 
 	public static boolean isValid(String token) {
-		Claims claims=Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+		Claims claims = null;
+		try {
+			claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+		} catch (io.jsonwebtoken.ExpiredJwtException e) {
+			return false;
+		}
 		System.out.println(claims.getExpiration());
 		System.out.println(claims.getId());
-		return claims.getExpiration().getTime() < new Date().getTime();
-
+		return true;//claims.getExpiration().getTime() < new Date().getTime();
+	}
+	public static String refreshToken(String token){
+		Claims claims=null;
+		try{
+			claims=Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = "/ad/reg")
 public class TokenCheckFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,7 +25,7 @@ public class TokenCheckFilter implements Filter {
         if (token != null && !token.equals("") && TokenUtility.isValid(token))
             filterChain.doFilter(servletRequest, servletResponse);
         else {
-            response.sendError(401, "boro vase login");
+            response.sendError(401, "Refresh Token needed");
         }
 
     }

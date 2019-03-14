@@ -1,12 +1,15 @@
 package com.snappad.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.List;
 @Entity
 @Table(name="user")
+@JsonIgnoreProperties({"userpass","userads"})
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "userid")
@@ -30,7 +33,7 @@ public class UserModel {
 	@OneToMany(mappedBy="Userid")
 	private List<Favorite> UserFavId;
 	@Column
-	private String Token;
+	private String token;
 
 	public void setUserid(Integer usarid) {
 		this.userid = usarid;
@@ -89,11 +92,11 @@ public class UserModel {
 	}
 
 	public String getToken() {
-		return Token;
+		return token;
 	}
 
 	public void setToken(String token) {
-		Token = token;
+		this.token = token;
 	}
 
 }
