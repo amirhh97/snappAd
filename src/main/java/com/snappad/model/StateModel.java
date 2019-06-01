@@ -20,7 +20,7 @@ public class StateModel {
 @Column
 private int stateid;
 @Column
-private String StateName;
+private String statename;
 public int getStateid() {
 	return stateid;
 }
@@ -28,10 +28,10 @@ public void setStateid(int stateid) {
 	this.stateid = stateid;
 }
 public String getStateName() {
-	return StateName;
+	return statename;
 }
 public void setStateName(String stateName) {
-	StateName = stateName;
+	statename = stateName;
 }
 
 }

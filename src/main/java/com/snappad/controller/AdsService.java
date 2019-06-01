@@ -127,8 +127,8 @@ public class AdsService {
 	public List<AdsModel> getAllAds() {
 
 		List<AdsModel> ads =adsRepository.findAll();
-		for (AdsModel x : ads)
-			x.setDate(x.computeDiff());
+		/*for (AdsModel x : ads)
+			x.setDate(x.computeDiff());*/
 		return ads;
 
 	}

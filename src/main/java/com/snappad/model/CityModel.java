@@ -18,7 +18,7 @@ public class CityModel {
 @Column
 private int CityId;
 @Column
-private String CityName;
+private String cityname;
 @OneToOne
 private StateModel State;
 @OneToOne
@@ -47,10 +47,10 @@ public void setCityId(int cityId) {
 	CityId = cityId;
 }
 public String getCityName() {
-	return CityName;
+	return cityname;
 }
 public void setCityName(String cityName) {
-	CityName = cityName;
+	cityname = cityName;
 }
 public List<DistrictModel> getDistricts() {
 	return Districts;

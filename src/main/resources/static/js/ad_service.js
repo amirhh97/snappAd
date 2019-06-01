@@ -87,7 +87,7 @@ angular.module('myApp').factory('AdService', ['$http', '$q', function($http, $q)
                 deferred.reject(errResponse);
             }
         );
-        return deferred.promise; } 
+        return deferred.promise; }
 		function sendLoginData(user){
 		var deferred = $q.defer();
 
@@ -113,7 +113,7 @@ angular.module('myApp').factory('AdService', ['$http', '$q', function($http, $q)
 
 		$http({
 			method: 'POST',
-			url: LOGIN_URI+'reg', 
+			url: LOGIN_URI+'reg',
 			data: $.param({ firstName:user.username, lastName:user.lastName, usermail: user.usermail, password: user.userpass, mobileNumber: user.usermobilenum }),
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(
@@ -134,7 +134,7 @@ angular.module('myApp').factory('AdService', ['$http', '$q', function($http, $q)
 
 		$http({
 			method: 'POST',
-			url: ADREGISTER_URI+"reg", 
+			url: ADREGISTER_URI+"reg",
 			data: $.param({ Describe:ad.adsDescribe,State:ad.adsState, City:ad.adsCity, district: 'blablabla',cat:ad.cat,manufacturer: ad.manufacturer,brand:ad.brand,poroductYear:ad.produceYear,title:ad.adsTitle,img:'ییلبلل'}),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
